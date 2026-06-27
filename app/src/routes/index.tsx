@@ -8,8 +8,10 @@ type Watch = {
   name: string;
   brand: string;
   metal: string;
-  image: string;
+  video: string;
+  poster: string;
   description: string;
+  reelUrl: string;
 };
 
 const watches: Watch[] = [
@@ -17,43 +19,55 @@ const watches: Watch[] = [
     name: "Santos Skeleton",
     brand: "Cartier",
     metal: "Silver / Full Ice",
-    image: "/images/santos-skeleton-silver.png",
+    video: "/videos/watch-1.mp4",
+    poster: "/images/santos-skeleton-silver.png",
     description: "Santos Dumont skeleton with diamond-paved case, bracelet, and movement bridges. Blued sword hands, blue cabochon crown.",
+    reelUrl: "https://www.instagram.com/reel/CzZSUurPSZR/",
   },
   {
     name: "Santos Two-Tone",
     brand: "Cartier",
     metal: "Rose Gold / Silver",
-    image: "/images/santos-rose-gold-twotone.png",
+    video: "/videos/watch-2.mp4",
+    poster: "/images/santos-rose-gold-twotone.png",
     description: "Rose gold bezel and center links with silver case. Fully paved dial, Roman numerals, date window at 6 o'clock.",
+    reelUrl: "https://www.instagram.com/reel/C30u32vyUVS/",
   },
   {
     name: "Santos Gold Accent",
     brand: "Cartier",
     metal: "Silver / Yellow Gold",
-    image: "/images/santos-silver-gold.png",
+    video: "/videos/watch-3.mp4",
+    poster: "/images/santos-silver-gold.png",
     description: "Silver case and bracelet with yellow gold dial accents. Paved with VVS diamonds throughout. AUTOMATIC plate and date window.",
+    reelUrl: "https://www.instagram.com/reel/C1AYoO_vGSv/",
   },
   {
     name: "Royal Oak Two-Tone",
     brand: "Audemars Piguet",
     metal: "Yellow Gold / Silver",
-    image: "/images/ap-royal-oak-twotone.png",
+    video: "/videos/watch-4.mp4",
+    poster: "/images/ap-royal-oak-twotone.png",
     description: "Octagonal gold bezel with exposed screws. Gold paved dial with stick markers. Two-tone bracelet fully set with diamonds.",
+    reelUrl: "https://www.instagram.com/reel/Cu7TfzVAsqS/",
   },
   {
     name: "Datejust Full Ice",
     brand: "Rolex",
     metal: "Silver / Full Ice",
-    image: "/images/rolex-datejust-silver.png",
+    video: "/videos/watch-5.mp4",
+    poster: "/images/rolex-datejust-silver.png",
     description: "Oyster bracelet, flat bezel, and case completely paved. Diamond dial with Roman numerals and cyclops date at 3 o'clock.",
+    reelUrl: "https://www.instagram.com/reel/C0fZurQvDQW/",
   },
   {
     name: "Santos Full Ice",
     brand: "Cartier",
     metal: "Silver / Full Ice",
-    image: "/images/santos-all-silver.png",
+    video: "/videos/watch-6.mp4",
+    poster: "/images/santos-all-silver.png",
     description: "All-silver Santos with every surface paved in brilliant diamonds. Dark Roman numerals, date at 6, blue cabochon crown.",
+    reelUrl: "https://www.instagram.com/reel/CviWX_OgXRE/",
   },
 ];
 
@@ -154,16 +168,16 @@ function Index() {
         </div>
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {watches.map((watch) => (
-            <div
-              key={watch.name}
-              className="group relative overflow-hidden rounded-2xl border border-white/5 bg-[#111113] transition-colors hover:border-white/15"
-            >
-              <div className="aspect-square overflow-hidden">
-                <img
-                  src={watch.image}
-                  alt={`${watch.brand} ${watch.name}`}
+            <div className="group relative overflow-hidden rounded-2xl border border-white/5 bg-[#111113] transition-colors hover:border-white/15">
+              <div className="relative aspect-square overflow-hidden">
+                <video
+                  src={watch.video}
+                  poster={watch.poster}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
                   className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  loading="lazy"
                 />
               </div>
               <div className="p-5">
@@ -173,6 +187,17 @@ function Index() {
                 </div>
                 <p className="mt-1 text-sm text-neutral-500">{watch.metal}</p>
                 <p className="mt-3 text-sm leading-relaxed text-neutral-400">{watch.description}</p>
+                <a
+                  href={watch.reelUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-4 inline-flex items-center gap-1.5 text-xs font-medium text-neutral-400 transition-colors hover:text-white"
+                >
+                  Watch on Instagram
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M7 17L17 7M17 7H8M17 7V16" />
+                  </svg>
+                </a>
               </div>
             </div>
           ))}
@@ -265,4 +290,6 @@ function Index() {
     </div>
   );
 }
+
+
 
