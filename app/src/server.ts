@@ -40,6 +40,14 @@ async function normalizeCatastrophicSsrResponse(response: Response): Promise<Res
 export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
     try {
+      // Trailing slash normalization — 301 redirect before the handler runs.
+      // Prevents duplicate-URL indexing (e.g. /about/ → /about).
+      const url = new URL(request.url);
+      if (url.pathname !== "/" && url.pathname.endsWith("/")) {
+        url.pathname = url.pathname.slice(0, -1);
+        return Response.redirect(url.toString(), 301);
+      }
+
       const handler = await getServerEntry();
       const response = await handler.fetch(request, env, ctx);
       return await normalizeCatastrophicSsrResponse(response);
@@ -52,3 +60,4 @@ export default {
     }
   },
 };
+

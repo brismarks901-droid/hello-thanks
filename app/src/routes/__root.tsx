@@ -14,16 +14,12 @@ import { bootstrapScript } from "@higgsfield/quanta/runtime";
 
 import appCss from "../styles.css?url";
 import { reportHiggsfieldError } from "../lib/higgsfield-error-reporting";
-// Page metadata (browser <title>/favicon + social og: tags) committed into the
-// repo by the marketplace meta API and read at BUILD time — no runtime fetch.
-// Editing it via the app settings UI rewrites this file and redeploys the app.
+// SEO metadata is committed into the repo by the marketplace meta API and read
+// at BUILD time (no runtime fetch). Editing it via the app settings UI rewrites
+// this file and redeploys the app.
 import appMetaJson from "../app-meta.json";
 
 declare const __HF_DESIGN_INSPECTOR__: boolean;
-
-// Built-in defaults for any field that isn't set in app-meta.json.
-const DEFAULT_TITLE = "Higgsfield App";
-const DEFAULT_DESCRIPTION = "Higgsfield Generated Project";
 
 type AppMeta = {
   og_title?: string | null;
@@ -34,40 +30,43 @@ type AppMeta = {
 
 const appMeta = appMetaJson as AppMeta;
 
-// Build the document head (title / description / og: / twitter: / favicon) from
-// app-meta.json, falling back to the defaults above for any unset field.
-// og_title/og_description double as the browser <title> and meta description;
-// og_image_url (when set) also drives the twitter card + image. Built from
-// inline tag literals (conditional spreads for the optional image/favicon) so
-// it matches the head() shape TanStack expects.
-function buildHead(meta: AppMeta) {
-  const title = meta.og_title ?? DEFAULT_TITLE;
-  const description = meta.og_description ?? DEFAULT_DESCRIPTION;
-  const ogImage = meta.og_image_url ?? null;
-  const favicon = meta.favicon_url ?? null;
+// Brand-constant SEO values for Nicely Icey.
+const SITE_URL = "https://pearl-horizon-329.higgsfield.app";
+const SITE_TITLE = "Nicely Icey — Iced-Out Luxury Watches | Los Angeles, CA";
+const SITE_DESCRIPTION =
+  "Nicely Icey sells custom iced-out luxury watches in Los Angeles — Cartier Santos, AP Royal Oak, Rolex Datejust with diamond-set bezels. Shine on a budget.";
+const SITE_OG_IMAGE = appMeta.og_image_url ?? `${SITE_URL}/images/nicely-icey-logo.png`;
+const SITE_FAVICON = appMeta.favicon_url ?? "/images/nicely-icey-favicon.png";
 
+// Build the document head (title / description / og: / twitter: / favicon / robots)
+// with real keyword-targeted SEO tags for Nicely Icey. The og:image falls back
+// to the logo if app-meta.json doesn't carry one.
+function buildHead() {
   return {
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title },
-      { name: "description", content: description },
-      { name: "author", content: "Higgsfield" },
-      { property: "og:title", content: title },
-      { property: "og:description", content: description },
+      { title: SITE_TITLE },
+      { name: "description", content: SITE_DESCRIPTION },
+      { name: "author", content: "Nicely Icey" },
+      { name: "theme-color", content: "#0a0a0b" },
+      { name: "robots", content: "index, follow, max-image-preview:large" },
       { property: "og:type", content: "website" },
-      { name: "twitter:card", content: ogImage ? "summary_large_image" : "summary" },
-      { name: "twitter:site", content: "@Higgsfield" },
-      ...(ogImage
-        ? [
-            { property: "og:image", content: ogImage },
-            { name: "twitter:image", content: ogImage },
-          ]
-        : []),
+      { property: "og:site_name", content: "Nicely Icey" },
+      { property: "og:locale", content: "en_US" },
+      { property: "og:title", content: SITE_TITLE },
+      { property: "og:description", content: SITE_DESCRIPTION },
+      { property: "og:url", content: SITE_URL },
+      { property: "og:image", content: SITE_OG_IMAGE },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: SITE_TITLE },
+      { name: "twitter:description", content: SITE_DESCRIPTION },
+      { name: "twitter:image", content: SITE_OG_IMAGE },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
-      ...(favicon ? [{ rel: "icon", href: favicon }] : []),
+      { rel: "canonical", href: SITE_URL },
+      { rel: "icon", href: SITE_FAVICON },
     ],
   };
 }
@@ -124,7 +123,7 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   // Read the committed page metadata at build time (no runtime fetch).
-  head: () => buildHead(appMeta),
+  head: () => buildHead(),
   shellComponent: RootShell,
   component: RootComponent,
   notFoundComponent: NotFoundComponent,
@@ -175,3 +174,5 @@ function RootComponent() {
     </QueryClientProvider>
   );
 }
+
+
