@@ -14,6 +14,7 @@ import { bootstrapScript } from "@higgsfield/quanta/runtime";
 
 import appCss from "../styles.css?url";
 import { reportHiggsfieldError } from "../lib/higgsfield-error-reporting";
+import { siteUrl } from "../lib/site-url";
 // SEO metadata is committed into the repo by the marketplace meta API and read
 // at BUILD time (no runtime fetch). Editing it via the app settings UI rewrites
 // this file and redeploys the app.
@@ -30,18 +31,20 @@ type AppMeta = {
 
 const appMeta = appMetaJson as AppMeta;
 
-// Brand-constant SEO values for Nicely Icey.
-const SITE_URL = "https://pearl-horizon-329.higgsfield.app";
+// Brand-constant SEO values for Nicely Icey. The site URL is read at runtime
+// from the SITE_URL env var (set in wrangler.jsonc) so it stays correct on any
+// custom domain without a code change.
 const SITE_TITLE = "Nicely Icey — Iced-Out Luxury Watches | Los Angeles, CA";
 const SITE_DESCRIPTION =
   "Nicely Icey sells custom iced-out luxury watches in Los Angeles — Cartier Santos, AP Royal Oak, Rolex Datejust with diamond-set bezels. Shine on a budget.";
-const SITE_OG_IMAGE = appMeta.og_image_url ?? `${SITE_URL}/images/nicely-icey-logo.png`;
-const SITE_FAVICON = appMeta.favicon_url ?? "/images/nicely-icey-favicon.png";
 
 // Build the document head (title / description / og: / twitter: / favicon / robots)
 // with real keyword-targeted SEO tags for Nicely Icey. The og:image falls back
 // to the logo if app-meta.json doesn't carry one.
 function buildHead() {
+  const url = siteUrl();
+  const ogImage = appMeta.og_image_url ?? `${url}/images/nicely-icey-logo.png`;
+  const favicon = appMeta.favicon_url ?? "/images/nicely-icey-favicon.png";
   return {
     meta: [
       { charSet: "utf-8" },
@@ -56,17 +59,17 @@ function buildHead() {
       { property: "og:locale", content: "en_US" },
       { property: "og:title", content: SITE_TITLE },
       { property: "og:description", content: SITE_DESCRIPTION },
-      { property: "og:url", content: SITE_URL },
-      { property: "og:image", content: SITE_OG_IMAGE },
+      { property: "og:url", content: url },
+      { property: "og:image", content: ogImage },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: SITE_TITLE },
       { name: "twitter:description", content: SITE_DESCRIPTION },
-      { name: "twitter:image", content: SITE_OG_IMAGE },
+      { name: "twitter:image", content: ogImage },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
-      { rel: "canonical", href: SITE_URL },
-      { rel: "icon", href: SITE_FAVICON },
+      { rel: "canonical", href: url },
+      { rel: "icon", href: favicon },
     ],
   };
 }
@@ -174,5 +177,6 @@ function RootComponent() {
     </QueryClientProvider>
   );
 }
+
 
 

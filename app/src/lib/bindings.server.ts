@@ -24,8 +24,10 @@ type AppEnv = {
   CONTAINER?: DurableObjectNamespace;
   HF_ENV?: string;
   APP_SLUG?: string;
+  SITE_URL?: string;
 };
 
 export function bindings(): AppEnv {
   return env as unknown as AppEnv;
 }
+

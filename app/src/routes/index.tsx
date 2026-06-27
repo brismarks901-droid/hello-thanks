@@ -1,38 +1,39 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { StructuredData } from "../components/StructuredData";
+import { siteUrl } from "../lib/site-url";
+
+const OG_IMAGE =
+  "https://d8j0ntlcm91z4.cloudfront.net/user_3CDPptWtTaWWgv68PkxzHYjSoyM/hf_20260626_234826_17c51933-854f-4051-8a20-974c0435763b.png";
 
 export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: "Nicely Icey — Iced-Out Luxury Watches | Los Angeles, CA" },
-      {
-        name: "description",
-        content:
-          "Nicely Icey sells custom iced-out luxury watches in Los Angeles — Cartier Santos, AP Royal Oak, Rolex Datejust with diamond-set bezels. Shine on a budget.",
-      },
-      { property: "og:title", content: "Nicely Icey — Iced-Out Luxury Watches | Los Angeles, CA" },
-      {
-        property: "og:description",
-        content:
-          "Custom iced-out luxury watches in Los Angeles. Cartier Santos, AP Royal Oak, Rolex Datejust with diamond-set bezels. DM @nicelyicey to order.",
-      },
-      { property: "og:url", content: "https://pearl-horizon-329.higgsfield.app" },
-      {
-        property: "og:image",
-        content:
-          "https://d8j0ntlcm91z4.cloudfront.net/user_3CDPptWtTaWWgv68PkxzHYjSoyM/hf_20260626_234826_17c51933-854f-4051-8a20-974c0435763b.png",
-      },
-      { name: "twitter:title", content: "Nicely Icey — Iced-Out Luxury Watches | Los Angeles, CA" },
-      {
-        name: "twitter:description",
-        content:
-          "Custom iced-out luxury watches in Los Angeles. Cartier Santos, AP Royal Oak, Rolex Datejust with diamond-set bezels. DM @nicelyicey to order.",
-      },
-    ],
-    links: [
-      { rel: "canonical", href: "https://pearl-horizon-329.higgsfield.app" },
-    ],
-  }),
+  head: () => {
+    const url = siteUrl();
+    return {
+      meta: [
+        { title: "Nicely Icey — Iced-Out Luxury Watches | Los Angeles, CA" },
+        {
+          name: "description",
+          content:
+            "Nicely Icey sells custom iced-out luxury watches in Los Angeles — Cartier Santos, AP Royal Oak, Rolex Datejust with diamond-set bezels. Shine on a budget.",
+        },
+        { property: "og:title", content: "Nicely Icey — Iced-Out Luxury Watches | Los Angeles, CA" },
+        {
+          property: "og:description",
+          content:
+            "Custom iced-out luxury watches in Los Angeles. Cartier Santos, AP Royal Oak, Rolex Datejust with diamond-set bezels. DM @nicelyicey to order.",
+        },
+        { property: "og:url", content: url },
+        { property: "og:image", content: OG_IMAGE },
+        { name: "twitter:title", content: "Nicely Icey — Iced-Out Luxury Watches | Los Angeles, CA" },
+        {
+          name: "twitter:description",
+          content:
+            "Custom iced-out luxury watches in Los Angeles. Cartier Santos, AP Royal Oak, Rolex Datejust with diamond-set bezels. DM @nicelyicey to order.",
+        },
+      ],
+      links: [{ rel: "canonical", href: url }],
+    };
+  },
   component: Index,
 });
 
@@ -94,10 +95,6 @@ const watches: Watch[] = [
   },
 ];
 
-const SITE_URL = "https://pearl-horizon-329.higgsfield.app";
-const OG_IMAGE =
-  "https://d8j0ntlcm91z4.cloudfront.net/user_3CDPptWtTaWWgv68PkxzHYjSoyM/hf_20260626_234826_17c51933-854f-4051-8a20-974c0435763b.png";
-
 const ABOUT_DESCRIPTION =
   "Nicely Icey is a Los Angeles-based jeweler specializing in custom iced-out luxury watches, including Cartier Santos, Audemars Piguet Royal Oak, and Rolex Datejust models, customized with diamond and gem-set bezels.";
 
@@ -128,63 +125,66 @@ const FAQ_ITEMS: { q: string; a: string }[] = [
   },
 ];
 
-const SCHEMA = JSON.stringify({
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "Organization",
-      "@id": `${SITE_URL}/#org`,
-      name: "Nicely Icey",
-      url: SITE_URL,
-      logo: `${SITE_URL}/images/nicely-icey-logo.png`,
-      description: ABOUT_DESCRIPTION,
-      foundingDate: "2023",
-      areaServed: "United States",
-      sameAs: ["https://instagram.com/nicelyicey"],
-    },
-    {
-      "@type": "WebSite",
-      "@id": `${SITE_URL}/#website`,
-      name: "Nicely Icey",
-      url: SITE_URL,
-      publisher: { "@id": `${SITE_URL}/#org` },
-    },
-    {
-      "@type": "Store",
-      "@id": `${SITE_URL}/#store`,
-      name: "Nicely Icey",
-      url: SITE_URL,
-      description: ABOUT_DESCRIPTION,
-      areaServed: "Los Angeles, CA",
-      priceRange: "$$",
-      address: {
-        "@type": "PostalAddress",
-        addressLocality: "Los Angeles",
-        addressRegion: "CA",
-        addressCountry: "US",
+function buildSchema(siteUrl: string): string {
+  return JSON.stringify({
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": `${siteUrl}/#org`,
+        name: "Nicely Icey",
+        url: siteUrl,
+        logo: `${siteUrl}/images/nicely-icey-logo.png`,
+        description: ABOUT_DESCRIPTION,
+        foundingDate: "2023",
+        areaServed: "United States",
+        sameAs: ["https://instagram.com/nicelyicey"],
       },
-      sameAs: ["https://instagram.com/nicelyicey"],
-      parentOrganization: { "@id": `${SITE_URL}/#org` },
-    },
-    {
-      "@type": "FAQPage",
-      "@id": `${SITE_URL}/#faq`,
-      mainEntity: FAQ_ITEMS.map((item) => ({
-        "@type": "Question",
-        name: item.q,
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: item.a,
+      {
+        "@type": "WebSite",
+        "@id": `${siteUrl}/#website`,
+        name: "Nicely Icey",
+        url: siteUrl,
+        publisher: { "@id": `${siteUrl}/#org` },
+      },
+      {
+        "@type": "Store",
+        "@id": `${siteUrl}/#store`,
+        name: "Nicely Icey",
+        url: siteUrl,
+        description: ABOUT_DESCRIPTION,
+        areaServed: "Los Angeles, CA",
+        priceRange: "$$",
+        address: {
+          "@type": "PostalAddress",
+          addressLocality: "Los Angeles",
+          addressRegion: "CA",
+          addressCountry: "US",
         },
-      })),
-    },
-  ],
-});
+        sameAs: ["https://instagram.com/nicelyicey"],
+        parentOrganization: { "@id": `${siteUrl}/#org` },
+      },
+      {
+        "@type": "FAQPage",
+        "@id": `${siteUrl}/#faq`,
+        mainEntity: FAQ_ITEMS.map((item) => ({
+          "@type": "Question",
+          name: item.q,
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: item.a,
+          },
+        })),
+      },
+    ],
+  });
+}
 
 function Index() {
+  const schema = buildSchema(siteUrl());
   return (
     <div className="min-h-dvh bg-[#0a0a0b] text-neutral-200 antialiased">
-      <StructuredData json={SCHEMA} />
+      <StructuredData json={schema} />
 
       {/* Nav */}
       <nav className="fixed top-0 left-0 right-0 z-50 border-b border-white/5 bg-[#0a0a0b]/80 backdrop-blur-xl">
@@ -467,4 +467,8 @@ function Index() {
     </div>
   );
 }
+
+
+
+
 

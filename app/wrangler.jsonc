@@ -14,7 +14,7 @@
   // uncomment the matching block in the OPT-IN INFRA section below.
   //
   // `name` must stay a valid Cloudflare name (lowercase + dashes, 3–63 chars).
-  "name": "app-slug-placeholder",
+  "name": "nicely-icey",
 
   // The Worker entry is the TanStack Start SSR server bundle — `vite build`
   // emits dist/server/server.js (`export default { fetch }`). The deploy CI
@@ -35,10 +35,10 @@
     "not_found_handling": "none"
   },
 
-  // Non-secret identity for local dev/build; the deploy sets the real values.
-  // SECRETS (e.g. the fnf token) are NEVER here and NEVER in the Worker — the
-  // platform Outbound Worker injects them on server-side egress.
-  "vars": { "HF_ENV": "dev", "APP_SLUG": "app-slug-placeholder" }
+  // Non-secret env vars available to the Worker at runtime. These are safe,
+  // non-sensitive values. Add real secrets via `wrangler secret put <NAME>`
+  // or the Cloudflare dashboard (Settings → Variables and Secrets).
+  "vars": { "HF_ENV": "production", "APP_SLUG": "nicely-icey", "SITE_URL": "https://nicely-icey.workers.dev" }
 
   // ── OPT-IN INFRA (off by default) ────────────────────────────────
   // Declare the service in app.manifest.json; the deploy injects the real
@@ -69,3 +69,6 @@
   // `export class Rooms extends DurableObject {…}` from src/server.ts so the class
   // ships. (Containers / code-sandboxes are not wired through the deploy path yet.)
 }
+
+
+
