@@ -60,15 +60,6 @@ const watches: Watch[] = [
     description: "Oyster bracelet, flat bezel, and case completely paved. Diamond dial with Roman numerals and cyclops date at 3 o'clock.",
     reelUrl: "https://www.instagram.com/reel/C0fZurQvDQW/",
   },
-  {
-    name: "Santos Full Ice",
-    brand: "Cartier",
-    metal: "Silver / Full Ice",
-    video: "/videos/watch-6.mp4",
-    poster: "/images/santos-all-silver.png",
-    description: "All-silver Santos with every surface paved in brilliant diamonds. Dark Roman numerals, date at 6, blue cabochon crown.",
-    reelUrl: "https://www.instagram.com/reel/CviWX_OgXRE/",
-  },
 ];
 
 function Index() {
@@ -290,6 +281,7 @@ function Index() {
     </div>
   );
 }
+
 
 
 
