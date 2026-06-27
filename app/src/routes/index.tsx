@@ -68,8 +68,17 @@ function Index() {
       {/* Nav */}
       <nav className="fixed top-0 left-0 right-0 z-50 border-b border-white/5 bg-[#0a0a0b]/80 backdrop-blur-xl">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
-          <a href="#top" className="text-lg font-semibold tracking-[0.02em] text-white">
-            NICELY<span className="text-neutral-500"> ICEY</span>
+          <a href="#top" className="flex items-center gap-2.5">
+            <img
+              src="/images/nicely-icey-favicon.png"
+              alt="Nicely Icey diamond logo"
+              width={36}
+              height={36}
+              className="rounded-lg"
+            />
+            <span className="text-lg font-semibold tracking-[0.02em] text-white">
+              NICELY<span className="text-neutral-500"> ICEY</span>
+            </span>
           </a>
           <div className="hidden items-center gap-8 md:flex">
             <a href="#collection" className="text-sm text-neutral-400 transition-colors hover:text-white">Collection</a>
@@ -98,6 +107,12 @@ function Index() {
         </div>
         <div className="relative z-10 mx-auto flex min-h-[100dvh] max-w-6xl flex-col justify-end px-6 pb-20 pt-24">
           <div className="max-w-xl">
+            <img
+              src="/images/nicely-icey-logo.png"
+              alt="Nicely Icey — Shine on a Budget"
+              width={180}
+              className="mb-8 w-44 rounded-2xl md:w-48"
+            />
             <h1 className="text-5xl font-semibold leading-[1.05] tracking-tight text-white md:text-7xl">
               Get Iced.
               <br />
@@ -264,23 +279,43 @@ function Index() {
 
       {/* Footer */}
       <footer className="border-t border-white/5 bg-[#0a0a0b]">
-        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-6 py-8 sm:flex-row">
-          <p className="text-sm text-neutral-600">
-            Nicely Icey. Los Angeles, CA.
-          </p>
-          <a
-            href="https://www.instagram.com/nicelyicey/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-sm text-neutral-400 transition-colors hover:text-white"
-          >
-            @nicelyicey
-          </a>
+        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-6 px-6 py-10 sm:flex-row">
+          <div className="flex items-center gap-3">
+            <img
+              src="/images/nicely-icey-favicon.png"
+              alt="Nicely Icey diamond logo"
+              width={40}
+              height={40}
+              className="rounded-lg"
+            />
+            <div className="flex flex-col">
+              <span className="text-sm font-semibold tracking-[0.02em] text-white">
+                NICELY ICEY
+              </span>
+              <span className="text-xs text-neutral-500">Shine on a budget</span>
+            </div>
+          </div>
+          <div className="flex flex-col items-center gap-1 sm:items-end">
+            <a
+              href="https://www.instagram.com/nicelyicey/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm text-neutral-400 transition-colors hover:text-white"
+            >
+              @nicelyicey
+            </a>
+            <p className="text-xs text-neutral-600">
+              Los Angeles, CA
+            </p>
+          </div>
         </div>
       </footer>
     </div>
   );
 }
+
+
+
 
 
 
