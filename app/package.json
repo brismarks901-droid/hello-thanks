@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "vite dev",
     "dev:design": "HF_DESIGN_INSPECTOR=1 vite dev --mode design",
-    "build": "tsc --noEmit && vite build",
+    "build": "vite build",
     "build:design": "tsc --noEmit && HF_DESIGN_INSPECTOR=1 vite build --mode design",
     "build:prod": "tsc --noEmit && vite build",
     "build:dev": "vite build --mode development",
@@ -98,3 +98,4 @@
     "vite": "^7.3.1"
   }
 }
+
